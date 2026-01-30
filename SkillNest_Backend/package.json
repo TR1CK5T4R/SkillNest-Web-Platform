@@ -1,0 +1,17 @@
+{
+  "name": "skillnest",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "node",
+    "express",
+    "mongoose"
+  ],
+  "license": "ISC",
+  "author": "Tushar Singla",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
