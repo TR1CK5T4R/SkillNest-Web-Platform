@@ -5,10 +5,33 @@ import mongoose from "mongoose";
 
 const app = express();
 
+const allowedOrigins = process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
+    : ['http://localhost:5173'];
+
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-    credentials: true,
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+
+        // Allow localhost for development
+        if (origin.includes('localhost')) {
+            return callback(null, true);
+        }
+
+        // Allow all .vercel.app domains (production + previews)
+        if (origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true
 }));
+
+// app.use(cors({
+//     origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+//     credentials: true,
+// }));
 
 app.use(express.json({
     limit: "20kb"
